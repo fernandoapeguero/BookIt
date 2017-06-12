@@ -24,6 +24,8 @@ import java.util.List;
 
 public class BookUtils {
 
+    private static String searchInfo;
+    private static final String GOOGLE_BOOK_API = "https://www.googleapis.com/books/v1/volumes?q=" + searchInfo + "&maxResults=10";
     private static final String LOG_TAG = BookUtils.class.getName();
 
     private static URL createUrl(String stringUrl) {
@@ -112,7 +114,6 @@ public class BookUtils {
 
                     books.add(book);
                 }
-
 
             }
 

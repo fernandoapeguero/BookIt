@@ -14,7 +14,6 @@ public class BookKeeper {
         mTitle = title;
         mAuthor = author;
         mPublishedDate = published;
-
     }
 
     public String getmTitle(){
@@ -27,4 +26,5 @@ public class BookKeeper {
     public String getmPublishedDate(){
         return mPublishedDate;
     }
+
 }

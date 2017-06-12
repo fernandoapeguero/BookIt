@@ -1,19 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <EditText
         android:id="@+id/search_for_it"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-<ListView
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/list"
-    tools:context="com.fernandoapeguero.bookit.MainActivity"/>
+        android:layout_height="wrap_content"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:maxLines="1"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp" />
 
+    <ListView xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/search_for_it"
+        tools:context="com.fernandoapeguero.bookit.MainActivity" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/empty_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:foregroundGravity="center"
+        android:indeterminate="true" />
+</RelativeLayout>

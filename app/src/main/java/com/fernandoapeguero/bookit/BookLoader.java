@@ -32,6 +32,7 @@ public class BookLoader extends AsyncTaskLoader<List<BookKeeper>> {
             return null;
         }
 
-        return BookUtils.fetchBookData(mUrl);
+        return BookUtils.fetchBookData(mUrl) ;
     }
+
 }
