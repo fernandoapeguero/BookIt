@@ -105,27 +105,26 @@ public class BookUtils {
                 JSONObject currentBook = items.getJSONObject(i);
                 JSONObject volumeInfo = currentBook.getJSONObject("volumeInfo");
                 String title = volumeInfo.getString("title");
-                if (volumeInfo.has("authors") || volumeInfo.has("publishedDate")) {
+
+               String author;
+                String published;
+                if (volumeInfo.has("authors")) {
                     JSONArray authors = volumeInfo.getJSONArray("authors");
-                    String author = authors.getString(0);
-                    if (author.equals("")){
-                        author = "";
-                    }
-                    String published = volumeInfo.getString("publishedDate");
-
-                    BookKeeper book = new BookKeeper(title, author, published);
-
-                    books.add(book);
+                    author = authors.getString(0);
 
                 } else {
-
-                  String author = "NotAvailable";
-                    String published = "Not Available";
-
-                    BookKeeper book = new BookKeeper(title, author, published);
-
-                    books.add(book);
+                    author = "Not Available";
                 }
+                if (volumeInfo.has("publishedDate")) {
+                    published = volumeInfo.getString("publishedDate");
+
+                } else {
+                    published = "Not Available";
+                }
+
+                BookKeeper book = new BookKeeper(title, author, published);
+
+                books.add(book);
 
             }
 
