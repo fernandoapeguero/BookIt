@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private ProgressBar progressBar;
 
     private LoaderManager loadManager;
-
     private BookAdapter mAdapter;
+    private boolean shouldIclearIt = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         editFieldSearch();
 
+
     }
 
     @Override
@@ -65,19 +66,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<List<BookKeeper>> loader, List<BookKeeper> data) {
         progressBar.setVisibility(View.GONE);
-        ConnectivityManager cm = (ConnectivityManager) MainActivity.this.getSystemService(MainActivity.this.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
-        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-
-        if (!isConnected) {
-            emptyStateView.setText("No Internet Connection Please Check");
-        } else {
-            emptyStateView.setText("No Books Found");
+        if (!checkConnection()) {
+            mAdapter.clear();
+            emptyStateView.setText("No Internet Connection Please Check, When done search for books");
+        } else if ( progressBar.getVisibility() == View.GONE){
+            mAdapter.clear();
+            emptyStateView.setText("No Books Found, Search Again for Books");
         }
 
         if (data != null && !data.isEmpty()) {
-            mAdapter.clear();
+            if (shouldIclearIt) {
+                mAdapter.clear();
+            }
             mAdapter.addAll(data);
         }
 
@@ -97,6 +98,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+
                     searchInfo = searchButton.getText().toString().trim();
 
                     GOOGLE_BOOK_API = "https://www.googleapis.com/books/v1/volumes?q=" + searchInfo + "&maxResults=10";
@@ -104,12 +107,21 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     loadManager.restartLoader(BOOK_LOADER_ID, null, MainActivity.this);
                     progressBar.setVisibility(View.VISIBLE);
                     searchButton.clearFocus();
+                    shouldIclearIt = true;
 
                 }
                 return false;
             }
         });
 
+    }
+
+    public boolean checkConnection(){
+        ConnectivityManager cm = (ConnectivityManager) MainActivity.this.getSystemService(MainActivity.this.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        return isConnected;
     }
 
 }
